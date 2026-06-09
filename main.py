@@ -153,18 +153,18 @@ OPERACOES_VALIDAS = frozenset({"criptografar", "decriptografar"})
 MENSAGEM_USO = """\
 Uso: python main.py <arquivo> <senha> <operacao>
 
-Operacoes validas: criptografar, decriptografar
+Operações válidas: criptografar, decriptografar
 """
 
 
 def validar_argumentos(argv: list[str]) -> tuple[str, str, str]:
     """
-    Valida os argumentos da linha de comando e retorna (arquivo, senha, operacao).
+    Valida os argumentos da linha de comando e retorna (arquivo, senha, operação).
 
     Encerra o programa com mensagem de erro quando:
-    - o numero de argumentos e incorreto;
-    - o arquivo de entrada nao existe;
-    - a operacao nao e 'criptografar' nem 'decriptografar'.
+    - o número de argumentos é incorreto;
+    - o arquivo de entrada não existe;
+    - a operação não é 'criptografar' nem 'decriptografar'.
     """
     if len(argv) != 4:
         print(MENSAGEM_USO, file=sys.stderr)
@@ -173,12 +173,12 @@ def validar_argumentos(argv: list[str]) -> tuple[str, str, str]:
     _, caminho_arquivo, senha, operacao = argv
 
     if not os.path.isfile(caminho_arquivo):
-        print(f"Erro: arquivo nao encontrado: {caminho_arquivo}", file=sys.stderr)
+        print(f"Erro: arquivo não encontrado: {caminho_arquivo}", file=sys.stderr)
         sys.exit(1)
 
     if operacao not in OPERACOES_VALIDAS:
         print(
-            f"Erro: operacao invalida '{operacao}'. "
+            f"Erro: operação inválida '{operacao}'. "
             "Use 'criptografar' ou 'decriptografar'.",
             file=sys.stderr,
         )
