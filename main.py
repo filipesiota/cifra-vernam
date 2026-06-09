@@ -1,5 +1,6 @@
 import hashlib
 import os
+import sys
 
 # Parâmetros da derivação de chave PBKDF2
 PBKDF2_HASH = "sha256"
@@ -145,3 +146,58 @@ def decriptografar_arquivo(caminho_entrada: str, senha: str) -> str:
     caminho_saida = caminho_arquivo_decifrado(caminho_entrada)
     gravar_arquivo(caminho_saida, plaintext)
     return caminho_saida
+
+
+OPERACOES_VALIDAS = frozenset({"criptografar", "decriptografar"})
+
+MENSAGEM_USO = """\
+Uso: python main.py <arquivo> <senha> <operacao>
+
+Operacoes validas: criptografar, decriptografar
+"""
+
+
+def validar_argumentos(argv: list[str]) -> tuple[str, str, str]:
+    """
+    Valida os argumentos da linha de comando e retorna (arquivo, senha, operacao).
+
+    Encerra o programa com mensagem de erro quando:
+    - o numero de argumentos e incorreto;
+    - o arquivo de entrada nao existe;
+    - a operacao nao e 'criptografar' nem 'decriptografar'.
+    """
+    if len(argv) != 4:
+        print(MENSAGEM_USO, file=sys.stderr)
+        sys.exit(1)
+
+    _, caminho_arquivo, senha, operacao = argv
+
+    if not os.path.isfile(caminho_arquivo):
+        print(f"Erro: arquivo nao encontrado: {caminho_arquivo}", file=sys.stderr)
+        sys.exit(1)
+
+    if operacao not in OPERACOES_VALIDAS:
+        print(
+            f"Erro: operacao invalida '{operacao}'. "
+            "Use 'criptografar' ou 'decriptografar'.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    return caminho_arquivo, senha, operacao
+
+
+def main() -> None:
+    """Ponto de entrada: valida argumentos e executa cifragem ou decifragem."""
+    caminho_arquivo, senha, operacao = validar_argumentos(sys.argv)
+
+    if operacao == "criptografar":
+        caminho_saida = criptografar_arquivo(caminho_arquivo, senha)
+    else:
+        caminho_saida = decriptografar_arquivo(caminho_arquivo, senha)
+
+    print(f"Arquivo gravado em: {caminho_saida}")
+
+
+if __name__ == "__main__":
+    main()
