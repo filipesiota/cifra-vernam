@@ -154,6 +154,22 @@ Esta implementação resolve o problema com duas medidas:
 
 ```txt
 cifra-vernam/
-├── main.py       # script principal (cifragem, decifragem e CLI)
-└── README.md     # esta documentação
+├── main.py           # script principal (cifragem, decifragem e CLI)
+├── samples/          # arquivos de exemplo para testes de integração
+├── tests/            # suíte de testes (unittest, stdlib)
+│   ├── test_crypto.py
+│   ├── test_paths.py
+│   ├── test_files.py
+│   └── test_cli.py
+└── README.md         # esta documentação
 ```
+
+## Testes
+
+Na raiz do projeto, execute:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Os testes importam funções diretamente de `main.py` e não exigem dependências além da biblioteca padrão do Python.
