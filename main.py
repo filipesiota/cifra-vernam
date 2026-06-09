@@ -77,3 +77,71 @@ def decrypt(ciphertext: bytes, senha: str) -> bytes:
 
     # XOR novamente recupera o plaintext original
     return _xor_bytes(dados_cifrados, chave)
+
+
+def ler_arquivo(caminho: str) -> bytes:
+    """Lê o conteúdo completo de um arquivo em modo binário."""
+    with open(caminho, "rb") as arquivo:
+        return arquivo.read()
+
+
+def gravar_arquivo(caminho: str, dados: bytes) -> None:
+    """Grava bytes em um arquivo em modo binário."""
+    with open(caminho, "wb") as arquivo:
+        arquivo.write(dados)
+
+
+def caminho_arquivo_cifrado(caminho_entrada: str) -> str:
+    """
+    Gera o caminho de saída para cifragem: remove a extensão .txt e adiciona _cifrado.txt.
+
+    Exemplo: texto.txt -> texto_cifrado.txt
+    """
+    diretorio, nome = os.path.split(caminho_entrada)
+    if nome.endswith(".txt"):
+        nome_base = nome[:-4]
+    else:
+        nome_base = nome
+    return os.path.join(diretorio, f"{nome_base}_cifrado.txt")
+
+
+def caminho_arquivo_decifrado(caminho_entrada: str) -> str:
+    """
+    Gera o caminho de saída para decifragem: remove o sufixo _cifrado.txt e adiciona _decifrado.txt.
+
+    Exemplo: texto_cifrado.txt -> texto_decifrado.txt
+    """
+    diretorio, nome = os.path.split(caminho_entrada)
+    if nome.endswith("_cifrado.txt"):
+        nome_base = nome[: -len("_cifrado.txt")]
+    elif nome.endswith(".txt"):
+        nome_base = nome[:-4]
+    else:
+        nome_base = nome
+    return os.path.join(diretorio, f"{nome_base}_decifrado.txt")
+
+
+def criptografar_arquivo(caminho_entrada: str, senha: str) -> str:
+    """
+    Lê o arquivo de entrada, cifra com a Cifra de Vernam e grava salt + ciphertext.
+
+    Retorna o caminho do arquivo _cifrado.txt gerado.
+    """
+    plaintext = ler_arquivo(caminho_entrada)
+    dados_cifrados = encrypt(plaintext, senha)
+    caminho_saida = caminho_arquivo_cifrado(caminho_entrada)
+    gravar_arquivo(caminho_saida, dados_cifrados)
+    return caminho_saida
+
+
+def decriptografar_arquivo(caminho_entrada: str, senha: str) -> str:
+    """
+    Lê o arquivo cifrado (salt + ciphertext), decifra e grava o plaintext.
+
+    Retorna o caminho do arquivo _decifrado.txt gerado.
+    """
+    dados_cifrados = ler_arquivo(caminho_entrada)
+    plaintext = decrypt(dados_cifrados, senha)
+    caminho_saida = caminho_arquivo_decifrado(caminho_entrada)
+    gravar_arquivo(caminho_saida, plaintext)
+    return caminho_saida
