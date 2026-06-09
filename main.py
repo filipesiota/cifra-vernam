@@ -47,6 +47,9 @@ def encrypt(plaintext: bytes, senha: str) -> bytes:
     # Salt aleatório garante keystream único por arquivo, mesmo com a mesma senha
     salt = os.urandom(SALT_SIZE)
 
+    if not plaintext:
+        return salt
+
     # Keystream com o mesmo comprimento do plaintext (requisito da Cifra de Vernam)
     chave = derivar_chave(senha, salt, len(plaintext))
 
@@ -65,13 +68,18 @@ def decrypt(ciphertext: bytes, senha: str) -> bytes:
     e aplica XOR sobre o restante do arquivo (operação idêntica à cifragem).
     """
     if len(ciphertext) < SALT_SIZE:
-        raise ValueError(
-            f"Arquivo cifrado inválido: esperado pelo menos {SALT_SIZE} bytes (salt)."
+        print(
+            f"Erro: arquivo cifrado inválido: esperado pelo menos {SALT_SIZE} bytes (salt).",
+            file=sys.stderr,
         )
+        sys.exit(1)
 
     # Salt armazenado na cifragem: necessário para re-derivar o keystream
     salt = ciphertext[:SALT_SIZE]
     dados_cifrados = ciphertext[SALT_SIZE:]
+
+    if not dados_cifrados:
+        return b""
 
     # Mesma derivação PBKDF2 (senha + salt) produz o mesmo keystream
     chave = derivar_chave(senha, salt, len(dados_cifrados))
