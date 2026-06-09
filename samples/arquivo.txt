@@ -1,0 +1,18 @@
+Segurança de Sistemas
+
+A segurança de sistemas de informação é um campo essencial da tecnologia da informação, responsável por proteger dados, redes e dispositivos contra acessos não autorizados, falhas e ataques cibernéticos. Entre os princípios fundamentais da segurança, destacam-se a confidencialidade, a integridade, a disponibilidade e a autenticidade. A confidencialidade garante que apenas pessoas autorizadas possam acessar determinadas informações. A integridade assegura que os dados não sejam alterados indevidamente. A disponibilidade busca manter os sistemas acessíveis e funcionais sempre que necessário. Por fim, a autenticidade verifica se as partes envolvidas em uma comunicação são realmente quem afirmam ser.
+
+Com o avanço das ameaças digitais, torna-se cada vez mais importante implementar mecanismos de proteção eficazes. Isso inclui o uso de senhas fortes, autenticação multifator, firewalls, antivírus, sistemas de detecção de intrusos e, principalmente, algoritmos de criptografia. A criptografia transforma a informação original, chamada de texto claro, em um texto cifrado, ilegível para qualquer um que não possua a chave correta para decifrá-lo. Apesar de métodos modernos serem amplamente utilizados, os algoritmos clássicos ainda são importantes para fins didáticos e compreensão dos conceitos básicos de segurança da informação.
+
+Abaixo temos algumas informações de logs do sistema:
+
+1. O servidor reiniciou às 03:45 da manhã, após 2 tentativas falhas de login.
+2. Atenção: a porta 22/TCP está aberta; a 80/HTTP também.
+3. "Senha incorreta!" — exclamou o usuário pela 5ª vez.
+4. Backup concluído em 01/05/2025 às 14h30min.
+5. Total de acessos bloqueados hoje: 198.
+6. Use !, @, #, \$, %, ^, &, \* para testar caracteres especiais.
+7. O código de erro retornado foi: ERR#403-BLOCKED.
+
+Espero que o seu algoritmo de criptografia funcione!
+Bom trabalho.
